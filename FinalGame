@@ -1,10 +1,13 @@
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+
+import Game2048.Tile;
 
 public class FinalGame extends JPanel implements KeyListener {
 	
@@ -16,9 +19,10 @@ public class FinalGame extends JPanel implements KeyListener {
 	private boolean win = false;
 	private boolean lose = false;
 	// Initialize array and variables used for the pieces of the game
-	private Piece[] piece;
+	private piece[] piece;
 	private static final int sizeOfTile = 100;
 	private static final int spaceBetweenTiles = 20;
+	boolean mustAddNewPiece = false;
 	
 	// Class method
 	public FinalGame() {
@@ -33,15 +37,104 @@ public class FinalGame extends JPanel implements KeyListener {
 	// KeyListener Methods for key movement the user inputs
 	@Override
 	public void keyPressed(KeyEvent a) {
-		//
+		// Set char to get KeyPressed with user input
 		char keyPress = a.getKeyChar();
 		// Print out the key the user pressed onto the console
 		System.out.println(a);
 		// if conditional to choose an action based upon user input from the keyboard
-		if(keyPress == 'q');
+		if(keyPress == 'q') {
+			quit();
+		}
+		// if conditional to choose an action based upon user input from the keyboard
+		if (keyPress == 'r') {
+			reset();
+		}
+		// if conditional to lose the game if no moves can occur
+		if (!move()) {
+			// Set boolean to false
+			lose = true;
+		}
+		if (!win && !lose) {
+			if(keyPress == 'a') {
+				left();
+			}
+			else if (keyPress == 's'){
+				down();
+			}
+			else if (keyPress == 'd'){
+				right();
+			}
+			else if (keyPress == 'w'){
+				up();
+			}
+			repaint();
+		}
+		reset();
+	}
+
+	// Method to move up
+	private void up() {
+		piece = spin(270);
+		left();
+		piece = spin(90);
+	}
+
+	// Method to move down
+	private void down() {
+		piece = spin(90);
+		left();
+		piece = spin(270);
 		
 	}
 
+	// Method to move right
+	private void right() {
+		piece = spin(180);
+		left();
+		piece = spin(180);
+	}
+
+	// Method to move left and add tiles
+	private void left() {
+		boolean mustAddNewPiece = false;
+		for (int i = 0; i < 4; i++) {
+		      piece[] line = getLine(i);
+		      piece[] merged = mergeLine(moveLine(line));
+		      setLine(i, merged);
+		      if (!mustAddNewPiece && !compare(line, merged)) {
+		      mustAddNewPiece = true;
+		      }
+		}
+		if(mustAddNewPiece) {
+			addPiece();
+		}
+	}
+
+	// Method to quit the game
+	private void quit() {
+		// Terminating the program using System.exit(0)
+		// STACK OVERFLOW: https://stackoverflow.com/questions/22452930/terminating-a-java-program
+		System.exit(0);
+		System.out.println("You have ended the game!");
+		System.out.println("Valid Moves: " + validMoves);
+	}
+
+	// Method to reset the game
+	private void reset() {
+		// Set validMoves to 0
+		validMoves = 0;
+		// Set win boolean to false
+		win = false;
+		// Prepare to add new tiles
+		piece = new piece[4 * 4];
+		for (int i = 0; i < piece.length; i++) {
+			piece[i] = new piece();
+		}
+		// add two pieces to the board
+		addPiece;
+		addPiece;
+	}
+	
 	@Override
 	public void keyReleased(KeyEvent a) {
 		
@@ -51,17 +144,17 @@ public class FinalGame extends JPanel implements KeyListener {
 	public void keyTyped(KeyEvent a) {
 		
 	}
-	public class Piece {
+	public class piece {
 
 		// Initialize variable
 		public int num;
 
 		// Constructor
-		public Piece() {
+		public piece() {
 			this(0);
 		}
 
-		public Piece(int val) {
+		public piece(int val) {
 			num = val;
 		}
 		
@@ -69,6 +162,23 @@ public class FinalGame extends JPanel implements KeyListener {
 		public boolean empty() {
 			return num == 0;
 		}
+		
+		// Determine location of where a piece will appear
+		private piece placePiece(int x, int y) {
+		    return piece[x + y * 4];
+		  }
+		
+		// Method to add a piece to the board
+		private void addTile() {
+			// Use a list and if conditional to see if there is space on the board and then place a time
+			List<piece> list = space();
+			if (!space().isEmpty()) {
+			int index = (int) (Math.random() * list.size()) % list.size();
+			// Get the index in the list
+			piece empty = list.get(index);
+			// Randomize whether or not a 2 or 4 appears
+			empty.val = Math.random() < 0.9 ? 2 : 4;
+		    }
 	}
 	      
 	
@@ -86,4 +196,4 @@ public class FinalGame extends JPanel implements KeyListener {
 	frame.setVisible(true);
 	}
 }
-
+}
