@@ -21,6 +21,8 @@ public class FinalGame extends JPanel implements KeyListener {
 	private static final double probOfFour = 0.2;
 	private int validMoves = 0;
 	private int maxNum = 0;
+	private int val = 0;
+	private int num = 0;
 	private boolean win = false;
 	private boolean lose = false;
 	boolean mustAddNewPiece = false;
@@ -104,7 +106,7 @@ public class FinalGame extends JPanel implements KeyListener {
 		boolean mustAddNewPiece = false;
 		for (int i = 0; i < 4; i++) {
 			piece[] line = getLine(i);
-			piece[] merged = combineLine(alterLine(line));
+			piece[] merged = combineLines(alterLine(line));
 			placeLine(i, merged);
 			if (!mustAddNewPiece && !comparePieces(line, merged)) {
 				mustAddNewPiece = true;
@@ -133,7 +135,7 @@ public class FinalGame extends JPanel implements KeyListener {
 		win = false;
 		// Prepare to add new tiles
 		pieces = new piece[4 * 4];
-		for (int i = 0; i < piece.length(); i++) {
+		for (int i = 0; i < pieces.length; i++) {
 			pieces[i] = new piece();
 		}
 		// add two pieces to the board
@@ -166,54 +168,62 @@ public class FinalGame extends JPanel implements KeyListener {
 		}
 	}
 
+	// Method to move
+	boolean move() {
+		if (!full()) {
+			return true;
+		}
+	}
+
 	// Method to add a piece to the board
 	private void addPiece() {
-				// Use a list and if conditional to see if there is space on the board and then place a time
-				List<piece> list = space();
-				if (!space().isEmpty()) {
-				int index = (int) (Math.random() * list.size()) % list.size();
-				// Get the index in the list
-				piece empty = list.get(index);
-				// Randomize whether or not a 2 or 4 appears
-				empty.probOfTwo = 2;
-				empty.probOfFour = 4;
-			    }
-				
-				// Method to determine whether or not a piece is empty
-				public boolean empty() {
-					return num == 0;
-				}
-				
-				// Determine location of where a piece will appear
-				private piece placePiece(int x, int y) {
-				    return pieces[x + y * 4];
-				  }
-				
-		// Determine if there is space
-		private List<piece> space() {
-		    final List<piece> list = new ArrayList<piece>(16);
-		    for (piece p : pieces) {
-		      if (p.empty()) {
-		    	  // add piece
-		        list.add(p);
-		      }
-			}
-			return list;
+		// Use a list and if conditional to see if there is space on the board and then place a time
+		List<piece> list = space();
+		// If there is space, place a 2 or 4 piece
+		if (!space().isEmpty()) {
+			int index = (int) (Math.random() * list.size()) % list.size();
+			// Get the index in the list
+			piece empty = list.get(index);
+			// Randomize whether or not a 2 or 4 appears
+			empty.probOfTwo = 2;
+			empty.probOfFour = 4;
 		}
 
-		// Method to return whether or not there is space
-		private boolean isFull() {
-			return space().size() == 0;
+	// Method to determine whether or not a piece is empty
+	public boolean empty() {
+		return num == 0;
+	}
+
+	// Determine location of where a piece will appear
+	private piece placePiece(int x, int y) {
+		return pieces[x + y * 4];
+	}
+
+	// Determine if there is space
+	private List<piece> space() {
+		final List<piece> pieceList = new ArrayList<piece>(16);
+		for (piece p : pieces) {
+			if (p.isEmpty()) {
+				// add piece
+				pieceList.add(p);
+			}
+		}
+		return pieceList;
+	}
+
+	// Method to return whether or not there is space
+	private boolean full() {
+		return space().size() == 0;
+	}
+
+	// Method to see if any pieces can move
+	boolean canMove() {
+		if (!full()) {
+			return true;
 		}
 
-		// Method to see if any pieces can move
-		boolean canMove() {
-			if (!full()) {
-				return true;
-			}
-		
 		// For loop for placing pieces
-		for(int x = 0; x < 4; x++){
+		for (int x = 0; x < 4; x++) {
 			for (int y = 0; y < 4; y++) {
 				piece p = placePiece(x, y);
 				if ((x < 3 && p.val == placePiece(x + 1, y).val) || ((y < 3) && p.val == placePiece(x, y + 1).val)) {
@@ -221,37 +231,40 @@ public class FinalGame extends JPanel implements KeyListener {
 				}
 			}
 		}
-	return false;
+		return false;
 	}
-	
+
 	// Compare each piece
-	private boolean comparePieces(piece[] line1, piece[] line2) {
-		if (line1 == line2) {
+	private boolean comparePieces(piece[] lineOne, piece[] lineTwo) {
+		if (lineOne == lineTwo) {
 			return true;
 		}
-		} else if (line1.length != line2.length) {
-		return false;
-		}
+	}else if(lineOne.length!=lineTwo.length)
 
-		for (int i = 0; i < line1.length; i++) {
-			if (line1[i].value != line2[i].value) {
-				return false;
-				}
+	{
+		return false;
+	}
+
+	for(
+	int i = 0;i<lineOne.length;i++)
+	{
+		if (lineOne[i].value != lineTwo[i].value) {
+			return false;
 		}
 		return true;
-		}
+	}
 
 	// Method to control the movement of each piece
-	private piece[] spin(int angle) {
+	private piece[] spin(int ang) {
 		piece[] newTiles = new piece[4 * 4];
 		int setX = 3, setY = 3;
-		if (angle == 90) {
+		if (ang == 90) {
 			setY = 0;
-		} else if (angle == 270) {
+		} else if (ang == 270) {
 			setX = 0;
 		}
 
-		double rad = Math.toRadians(angle);
+		double rad = Math.toRadians(ang);
 		int cos = (int) Math.cos(rad);
 		int sin = (int) Math.sin(rad);
 		for (int x = 0; x < 4; x++) {
@@ -439,4 +452,4 @@ public class FinalGame extends JPanel implements KeyListener {
 		// Set frame visible to true
 		frame.setVisible(true);
 	}
-}
+
