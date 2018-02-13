@@ -2,12 +2,9 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-
-import Game2048.Tile;
 
 public class FinalGame extends JPanel implements KeyListener {
 	
@@ -197,3 +194,4 @@ public class FinalGame extends JPanel implements KeyListener {
 	}
 }
 }
+
