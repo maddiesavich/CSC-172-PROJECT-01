@@ -23,11 +23,11 @@ public class FinalGame extends JPanel implements KeyListener {
 	// Class method
 	public FinalGame() {
 		// Set size of screen
-		setPreferredSize(new Dimension(500, 600));
+		this.setPreferredSize(new Dimension(500, 600));
 		// setFocusable(true) is necessary for the KeyListener to properly function
 		setFocusable(true);
 		// Add the KeyListener to the program
-		addKeyListener(keyListener);
+		addKeyListener(this);
 		
 		}
 	
