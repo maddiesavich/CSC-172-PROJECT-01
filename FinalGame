@@ -28,29 +28,50 @@ public class FinalGame extends JPanel implements KeyListener {
 		setFocusable(true);
 		// Add the KeyListener to the program
 		addKeyListener(this);
-		
 		}
-	
 
 	// KeyListener Methods for key movement the user inputs
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(KeyEvent a) {
+		//
+		char keyPress = a.getKeyChar();
 		// Print out the key the user pressed onto the console
-		System.out.println(e);
+		System.out.println(a);
+		// if conditional to choose an action based upon user input from the keyboard
+		if(keyPress == 'q');
 		
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+	public void keyReleased(KeyEvent a) {
 		
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+	public void keyTyped(KeyEvent a) {
 		
 	}
+	public class Piece {
+
+		// Initialize variable
+		public int num;
+
+		// Constructor
+		public Piece() {
+			this(0);
+		}
+
+		public Piece(int val) {
+			num = val;
+		}
+		
+		// Method to determine whether or not a piece is empty
+		public boolean empty() {
+			return num == 0;
+		}
+	}
+	      
+	
 	// Main method
 	public static void main(String[] args) {
 	// Create and set everything for the JFrame
@@ -65,3 +86,4 @@ public class FinalGame extends JPanel implements KeyListener {
 	frame.setVisible(true);
 	}
 }
+
