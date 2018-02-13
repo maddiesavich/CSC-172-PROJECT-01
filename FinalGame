@@ -1,0 +1,41 @@
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JPanel;
+
+public class FinalGame extends JPanel implements KeyListener {
+	
+	// Initialize variables
+	private static final double probOfTwo = 0.8;
+	private static final double probOfFour= 0.2;
+	private int validMoves = 0;
+	private int maxNum = 0;
+	private boolean win = false;
+	private boolean lose = false;
+	// Initialize array and variables used for the pieces of the game
+	private Piece[] piece;
+	private static final int sizeOfTile = 100;
+	private static final int spaceBetweenTiles = 20;
+	
+
+	// KeyListener Methods for key movement the user inputs
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// Print out the key the user pressed onto the console
+		System.out.println(e);
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
