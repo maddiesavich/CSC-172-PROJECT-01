@@ -1,7 +1,10 @@
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 public class FinalGame extends JPanel implements KeyListener {
 	
@@ -16,6 +19,17 @@ public class FinalGame extends JPanel implements KeyListener {
 	private Piece[] piece;
 	private static final int sizeOfTile = 100;
 	private static final int spaceBetweenTiles = 20;
+	
+	// Class method
+	public FinalGame() {
+		// Set size of screen
+		setPreferredSize(new Dimension(500, 600));
+		// setFocusable(true) is necessary for the KeyListener to properly function
+		setFocusable(true);
+		// Add the KeyListener to the program
+		addKeyListener(keyListener);
+		
+		}
 	
 
 	// KeyListener Methods for key movement the user inputs
@@ -37,5 +51,17 @@ public class FinalGame extends JPanel implements KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
-
+	// Main method
+	public static void main(String[] args) {
+	// Create and set everything for the JFrame
+	JFrame frame = new JFrame();
+	frame.setTitle("CSC 172 PROJECT 01: 2048");
+	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	frame.setSize(500, 600);
+	// Prevent screen size from being altered by the user
+	frame.setResizable(false);
+	// Add the game to the frame
+	frame.add(new FinalGame());
+	frame.setVisible(true);
+	}
 }
